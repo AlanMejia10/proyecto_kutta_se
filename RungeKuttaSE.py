@@ -16,8 +16,8 @@ def analytic_equation_q(t, iterations, step):
     evaluations = []
     for i in range(0, iterations):
         evaluations.append(
-            ((-253 / 65) * math.cos(11 * t) + (121 / 65) * math.sin(11 * t) - (44 / 5) *
-             math.exp(-2 * t) + (165 / 13) * math.exp(-3 * t))
+            [(-253 / 65) * math.cos(11 * t) + (121 / 65) * math.sin(11 * t) - (44 / 5) *
+             math.exp(-2 * t) + (165 / 13) * math.exp(-3 * t)]
         )
         t += step
 
@@ -27,9 +27,9 @@ def analytic_equation_q(t, iterations, step):
 def analytic_equation_i(t, iterations, step):
     evaluations = []
     for i in range(0, iterations):
-        evaluations.append(
+        evaluations.append([
             (2783 / 65) * math.sin(11 * t) + (1331 / 65) * math.cos(11 * t) - (88 / 5) *
-            math.exp(-2 * t) - (495 / 13) * math.exp(-3 * t)
+            math.exp(-2 * t) - (495 / 13) * math.exp(-3 * t)]
         )
         t += step
 
@@ -101,7 +101,7 @@ if __name__ == "__main__":
     last_iteration = int(input("Ingresa el valor final de t: "))
     step = float(input("Ingresa el tamanio de paso h: "))
 
-    headers = np.array(["u/u'", "f(u)/f(u')", "k1", "k2", "k3", "k4"])
+    headers = np.array(["Q(t)/I(t)", "f(u)/f(u')", "k1", "k2", "k3", "k4"])
 
     # ? Adding one extra to include initial iteration
     iterations = int(abs(last_iteration - start_iteration) / step) + 1
@@ -113,13 +113,11 @@ if __name__ == "__main__":
     print("TABLA DE RUNGE KUTTA")
     print(tabulate(tabular_data=runge_kutta_table, headers=headers) + "\n")
 
-    print("evaluaciones de Q(t)")
-    print(tabulate(tabular_data=analytic_tables))
+    print(tabulate(tabular_data=analytic_tables[0], headers=["Q(t)"]) + "\n")
+    print(tabulate(tabular_data=analytic_tables[1], headers=["I(t)"]))
     plt.plot(list(np.arange(0, 2.1, 0.1)), analytic_tables[0])
     plt.plot(list(np.arange(0, 2.1, 0.1)), analytic_tables[1])
     plt.plot(list(np.arange(0.1, 2.2, 0.1)), q_values)
     plt.plot(list(np.arange(0.1, 2.2, 0.1)), i_values)
     plt.show()
 
-# print("Solucion analitica")
-# print(tabulate(tabular_data=interpolation_table, headers=headers_interpolation))
